@@ -1,0 +1,43 @@
+{
+	"name": "42-testeo-funcionalidades",
+	"version": "1.0.0",
+	"description": "Desafio entregable de la clase 42 del curso Programacion Backend en CoderHouse",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "nodemon index.js",
+		"test": "node src/tests/benchmark.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/michaelviloria/ch-bc-testeo-funcionalidades.git"
+	},
+	"keywords": [],
+	"author": "Michael Viloria",
+	"license": "ISC",
+	"type": "module",
+	"dependencies": {
+		"autocannon": "^7.10.0",
+		"axios": "^1.1.3",
+		"bcrypt": "^5.0.1",
+		"compression": "^1.7.4",
+		"cookie-parser": "^1.4.6",
+		"cors": "^2.8.5",
+		"dotenv": "^16.0.2",
+		"express": "^4.18.1",
+		"express-session": "^1.17.3",
+		"log4js": "^6.6.1",
+		"mongoose": "^6.5.5",
+		"passport": "^0.6.0",
+		"passport-local": "^1.0.0",
+		"pug": "^3.0.2",
+		"yargs": "^17.6.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.19"
+	},
+	"bugs": {
+		"url": "https://github.com/michaelviloria/ch-bc-testeo-funcionalidades/issues"
+	},
+	"homepage": "https://github.com/michaelviloria/ch-bc-testeo-funcionalidades#readme"
+}
