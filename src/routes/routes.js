@@ -7,7 +7,7 @@ import { logger } from "../utils/apiLogs.js";
 
 const router = Router();
 
-const controllersPage = new ControllersPage();
+// const controllersPage = new ControllersPage();
 
 class RouterPage {
 	constructor() {

@@ -1,44 +1,74 @@
 import ProductsApi from "../services/productsApi.js";
 import { logger } from "../utils/apiLogs.js";
 
-const productsApi = new ProductsApi();
-
 class ControllersProducts {
-	getAll = async (req, res) => {
-		const response = await productsApi.getAll();
-		res.json({ response });
+	constructor() {
+		this.api = new ProductsApi();
+	}
+
+	getAll = async () => {
+		try {
+			const response = await this.api.getAll();
+			return response;
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	};
 
 	get = async (req, res) => {
-		const id = req.params;
-		const response = await productsApi.get(id);
-		res.json({ response });
+		try {
+			const { id } = req.query;
+			if (!id) {
+				res.json(await this.getAll());
+			} else {
+				logger.info("*** ID Controllers ***", id);
+				logger.info("*** ID Controllers ***", Number(id));
+				const response = await this.api.get(Number(id));
+				res.json({ response });
+			}
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	};
 
 	addProduct = async (req, res) => {
-		const product = req.params;
-		// const productObj = {
-		// 	name: product.name,
-		// 	price: product.price,
-		// 	stock: product.stock,
-		// };
-		const response = await productsApi.addProduct(product);
-		logger.info(response);
-		res.json({ product });
+		try {
+			const product = req.body;
+			logger.info(product);
+			if (!product) res.json({ message: "Producto no añadido" });
+
+			const response = await this.api.addProduct(product);
+			logger.info(response);
+			res.json({ product });
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	};
 
 	update = async (req, res) => {
-		const { product, id } = req.params;
-		const response = await productsApi.update(id, product);
-		logger.info(response);
-		res.json({ response });
+		try {
+			const { product, id } = req.query;
+			if (!product || !id) res.json({});
+
+			const response = await this.api.update(id, product);
+			logger.info(response);
+			res.json({ response });
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	};
 
 	delete = async (req, res) => {
-		const { id } = req.params;
-		const response = await productsApi.delete(id);
-		logger.info(response);
-		res.json({ response });
+		try {
+			const { id } = req.query;
+			if (!id) res.json({});
+
+			const response = await this.api.delete(id);
+			logger.info(response);
+			res.json({ response });
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	};
 }
 

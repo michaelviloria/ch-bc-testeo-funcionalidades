@@ -7,28 +7,50 @@ class ProductsApi {
 	}
 
 	async getAll() {
-		const response = await this.productsDao.getAll();
-		return response;
+		try {
+			const response = await this.productsDao.getAll();
+			return response;
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	}
 
 	async get(id) {
-		const response = await this.productsDao.get(id);
-		return response;
+		try {
+			logger.info("*** ID API ***", id);
+			logger.info("*** ID API ***", Number(id));
+			const response = await this.productsDao.get(id);
+			return response;
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	}
 
 	async addProduct(product) {
-		await this.productsDao.addProduct(product);
-		logger.info("Producto guardado.");
+		try {
+			await this.productsDao.addProduct(product);
+			logger.info("Producto guardado.");
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	}
 
 	async update(id, product) {
-		const response = await this.productsDao.update(id, product);
-		return response;
+		try {
+			const response = await this.productsDao.update(id, product);
+			return response;
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	}
 
 	async delete(id) {
-		const response = await this.productsDao.delete(id);
-		return response;
+		try {
+			const response = await this.productsDao.delete(id);
+			return response;
+		} catch (error) {
+			logger.info("*** Error ***", error);
+		}
 	}
 }
 

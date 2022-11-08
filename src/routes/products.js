@@ -9,11 +9,10 @@ class RouterProducts {
 	}
 
 	start() {
-		router.get("/", this.controllersProducts.getAll);
-		router.get("/:id", this.controllersProducts.get);
-		router.put("/:id", this.controllersProducts.update);
-		router.delete("/remove", this.controllersProducts.delete);
+		router.get("/", this.controllersProducts.get);
 		router.post("/add", this.controllersProducts.addProduct);
+		router.put("/?id", this.controllersProducts.update);
+		router.delete("/remove", this.controllersProducts.delete);
 
 		return router;
 	}

@@ -47,10 +47,10 @@ app.use(passport.session());
 app.set("view engine", ".pug");
 app.set("views", "./src/views");
 
-const routerPage = new RouterPage();
-app.use("/", routerPage.start);
-
 const routerProducts = new RouterProducts();
 app.use("/api/products", routerProducts.start());
+
+const routerPage = new RouterPage();
+app.use("/", routerPage.start());
 
 export default app;
