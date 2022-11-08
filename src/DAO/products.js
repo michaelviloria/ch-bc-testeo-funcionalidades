@@ -1,15 +1,22 @@
-import { logger, loggerApis } from "../utils/apiLogs.js";
+import { logApp, logError } from "../utils/apiLogs.js";
 import Product from "../models/Products.js";
 
 class ProductsDao {
+	constructor() {
+		this.instance = null;
+	}
+
+	static getInstance() {
+		if (!this.instance) this.instance = new ProductsDao();
+		return this.instance;
+	}
+
 	async addProduct(product) {
 		try {
-			await Product.create(product, (error) => {
-				if (error) loggerApis.error("Error agregando un nuevo producto", error);
-				logger.info("Producto agregado");
-			});
+			const productAdded = await Product.create(product);
+			return productAdded;
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 
@@ -17,18 +24,16 @@ class ProductsDao {
 		try {
 			return await Product.find({});
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 
 	async get(id) {
 		try {
-			await Product.findOne({ id }, (error, id) => {
-				if (error || !id) return {};
-				return id;
-			});
+			const product = await Product.findOne({ id });
+			return product;
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 
@@ -36,7 +41,7 @@ class ProductsDao {
 		try {
 			return await Product.findOneAndReplace({ id }, product);
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 
@@ -44,7 +49,7 @@ class ProductsDao {
 		try {
 			return await Product.findOneAndDelete({ id });
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 }

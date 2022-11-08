@@ -7,7 +7,10 @@ import cors from "cors";
 import config from "../config.js";
 import RouterPage from "./routes/routes.js";
 import RouterProducts from "./routes/products.js";
-import { logger } from "./utils/apiLogs.js";
+import mongoose from "mongoose";
+import { logApp, logError } from "./utils/apiLogs.js";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -53,4 +56,12 @@ app.use("/api/products", routerProducts.start());
 const routerPage = new RouterPage();
 app.use("/", routerPage.start());
 
-export default app;
+
+const PORT = config.PORT;
+
+const server = app.listen(PORT, () => {
+	mongoose.connect(process.env.MONGO_CONNECT);
+	logApp.info(`Servidor HTTP escuchando en el puerto ${server.address().port}`);
+});
+
+server.on("error", (error) => logError.error(`Error en servidor: ${error}`));

@@ -1,9 +1,15 @@
 import ProductsDao from "../DAO/products.js";
-import { logger } from "../utils/apiLogs.js";
+import { logApp } from "../utils/apiLogs.js";
 
 class ProductsApi {
 	constructor() {
-		this.productsDao = new ProductsDao();
+		this.productsDao = ProductsDao.getInstance();
+		this.instance = null;
+	}
+
+	static getInstance() {
+		if (!this.instance) this.instance = new ProductsApi();
+		return this.instance;
 	}
 
 	async getAll() {
@@ -11,27 +17,26 @@ class ProductsApi {
 			const response = await this.productsDao.getAll();
 			return response;
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 
 	async get(id) {
 		try {
-			logger.info("*** ID API ***", id);
-			logger.info("*** ID API ***", Number(id));
 			const response = await this.productsDao.get(id);
+			if (!response) return { message: "El id especificado no existe" };
 			return response;
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 
 	async addProduct(product) {
 		try {
-			await this.productsDao.addProduct(product);
-			logger.info("Producto guardado.");
+			const productSended = await this.productsDao.addProduct(product);
+			return productSended;
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 
@@ -40,7 +45,7 @@ class ProductsApi {
 			const response = await this.productsDao.update(id, product);
 			return response;
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 
@@ -49,7 +54,7 @@ class ProductsApi {
 			const response = await this.productsDao.delete(id);
 			return response;
 		} catch (error) {
-			logger.info("*** Error ***", error);
+			logApp.info("*** Error ***", error);
 		}
 	}
 }
